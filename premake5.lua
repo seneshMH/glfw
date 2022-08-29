@@ -15,11 +15,16 @@ project "GLFW"
 		"src/input.c",
 		"src/monitor.c",
         "src/vulkan.c",
-		"src/window.c"
+		"src/window.c",
+
+		"src/platform.c",
+		"src/null_init.c",
+		"src/null_monitor.c",
+		"src/null_window.c",
+		"src/null_joystick.c"
 	}
 
     filter "system:windows"
-		buildoptions {"-std=c11","-lgdi32"}
 		systemversion "latest"
         staticruntime "On"
 
@@ -43,20 +48,5 @@ project "GLFW"
 			"_CRT_SECURE_NO_WARNINGS"
 		}
 
-		links
-		{
-			"Dwmapi.lib"
-		}
-
-	filter "configurations:Debug"
-		runtime "Debug"
-		symbols "on"
-
-	filter "configurations:Release"
-		runtime "Release"
-		optimize "on"
-
-	filter "configurations:Dist"
-		runtime "Release"
-		optimize "on"
-        symbols "off"
+	filter {"system:windows" , "configurations:Release"}
+		buildoptions "/MT"
